@@ -467,6 +467,10 @@ TWRP_REQUIRED_MODULES += \
     init.recovery.ldconfig.rc \
     awk \
 
+ifneq ($(TW_OZIP_DECRYPT_KEY),)
+    TWRP_REQUIRED_MODULES += ozip_decrypt
+endif
+
 ifneq ($(TW_INCLUDE_CRYPTO),)
 TWRP_REQUIRED_MODULES += \
     plat_service_contexts \
@@ -629,7 +633,7 @@ include $(BUILD_PHONY_PACKAGE)
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 24; echo $$?),0)
     include $(CLEAR_VARS)
     LOCAL_SRC_FILES := \
-        recovery-persist.cpp 
+        recovery-persist.cpp
     LOCAL_MODULE := recovery-persist
     LOCAL_SHARED_LIBRARIES := liblog libbase libmetricslogger
     LOCAL_STATIC_LIBRARIES := libotautil
@@ -648,7 +652,7 @@ endif
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -ge 24; echo $$?),0)
     include $(CLEAR_VARS)
     LOCAL_SRC_FILES := \
-        recovery-refresh.cpp 
+        recovery-refresh.cpp
     LOCAL_MODULE := recovery-refresh
     LOCAL_SHARED_LIBRARIES := liblog libbase
     LOCAL_STATIC_LIBRARIES := libotautil
@@ -767,7 +771,7 @@ else
                                 $(commands_TWRP_local_path)/minadbd \
                                 $(commands_TWRP_local_path)/minzip \
                                 system/libvintf/include
-            LOCAL_STATIC_LIBRARIES += libotautil libvintf_recovery libvintf 
+            LOCAL_STATIC_LIBRARIES += libotautil libvintf_recovery libvintf
         else
             LOCAL_C_INCLUDES += $(commands_TWRP_local_path)/install28/
             LOCAL_CFLAGS += -DUSE_28_INSTALL
@@ -824,7 +828,7 @@ commands_recovery_local_path := $(LOCAL_PATH)
 #    $(LOCAL_PATH)/edify/Android.mk
 #    $(LOCAL_PATH)/otafault/Android.mk
 
-    # $(commands_TWRP_local_path)/boot_control/Android.bp 
+    # $(commands_TWRP_local_path)/boot_control/Android.bp
     # $(commands_TWRP_local_path)/update_verifier/Android.mk
 include \
     $(commands_TWRP_local_path)/updater/Android.mk \
@@ -886,6 +890,10 @@ include $(commands_TWRP_local_path)/injecttwrp/Android.mk \
 
 ifeq ($(shell test $(PLATFORM_SDK_VERSION) -lt 24; echo $$?),0)
     include $(commands_TWRP_local_path)/libmincrypt/Android.mk
+endif
+
+ifneq ($(TW_OZIP_DECRYPT_KEY),)
+    include $(commands_TWRP_local_path)/ozip_decrypt/Android.mk
 endif
 
 ifeq ($(TW_INCLUDE_CRYPTO), true)
