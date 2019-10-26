@@ -428,7 +428,11 @@ int TWinstall_zip(const char* path, int* wipe_cache) {
 	if (Zip.EntryExists(ASSUMED_UPDATE_BINARY_NAME)) {
 		LOGINFO("Update binary zip\n");
 		// Additionally verify the compatibility of the package.
+#ifdef TW_SKIP_COMPATIBILITY_CHECK
+		if (0) {
+#else
 		if (!verify_package_compatibility(&Zip)) {
+#endif
 			gui_err("zip_compatible_err=Zip Treble compatibility error!");
 			Zip.Close();
 #ifdef USE_MINZIP
