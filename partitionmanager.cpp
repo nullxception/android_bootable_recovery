@@ -2717,6 +2717,10 @@ void TWPartitionManager::Translate_Partition_Display_Names() {
 	Translate_Partition("/system_image", "system_image", "System Image");
 	Translate_Partition("/vendor", "vendor", "Vendor");
 	Translate_Partition("/vendor_image", "vendor_image", "Vendor Image");
+	Translate_Partition("/odm", "odm", "ODM");
+	Translate_Partition("/odm_image", "odm_image", "ODM Image");
+	Translate_Partition("/product", "product", "Product");
+	Translate_Partition("/product_image", "product_image", "Product Image");
 	Translate_Partition("/cache", "cache", "Cache");
 	Translate_Partition("/boot", "boot", "Boot");
 	Translate_Partition("/recovery", "recovery", "Recovery");

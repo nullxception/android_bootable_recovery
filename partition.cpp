@@ -463,11 +463,25 @@ bool TWPartition::Process_Fstab_Line(const char *fstab_line, bool Display_Error,
 			Backup_Name = "system";
 			Backup_Display_Name = Display_Name;
 			Storage_Name = Display_Name;
+#ifdef PRODUCT_USE_DYNAMIC_PARTITIONS
+			Wipe_Available_in_GUI = false;
+			Can_Be_Backed_Up = false;
+#else
 			Wipe_Available_in_GUI = true;
 			Can_Be_Backed_Up = true;
+#endif
 			Mount_Read_Only = true;
 		} else if (Mount_Point == "/data") {
 			Display_Name = "Data";
+			Backup_Display_Name = Display_Name;
+			Storage_Name = Display_Name;
+			Wipe_Available_in_GUI = true;
+			Wipe_During_Factory_Reset = true;
+			Can_Be_Backed_Up = true;
+			Can_Encrypt_Backup = true;
+			Use_Userdata_Encryption = true;
+		} else if (Mount_Point == "/metadata") {
+			Display_Name = "Metadata";
 			Backup_Display_Name = Display_Name;
 			Storage_Name = Display_Name;
 			Wipe_Available_in_GUI = true;
@@ -512,6 +526,13 @@ bool TWPartition::Process_Fstab_Line(const char *fstab_line, bool Display_Error,
 			Display_Name = "Vendor";
 			Backup_Display_Name = Display_Name;
 			Storage_Name = Display_Name;
+#ifdef PRODUCT_USE_DYNAMIC_PARTITIONS
+			Wipe_Available_in_GUI = false;
+			Can_Be_Backed_Up = false;
+#else
+			Wipe_Available_in_GUI = true;
+			Can_Be_Backed_Up = true;
+#endif
 			Mount_Read_Only = true;
 		}
 #ifdef TW_EXTERNAL_STORAGE_PATH
