@@ -3274,7 +3274,11 @@ bool TWPartitionManager::Prepare_Super_Volume(TWPartition* twrpPart) {
 		bare_partition_name = TWFunc::Remove_Beginning_Slash(twrpPart->Get_Mount_Point());
 
 	FstabEntry fstabEntry = {
+#ifdef AB_OTA_UPDATER
         .blk_device = bare_partition_name + PartitionManager.Get_Active_Slot_Suffix(),
+#else
+        .blk_device = bare_partition_name,
+#endif
         .mount_point = twrpPart->Get_Mount_Point(),
         .fs_type = twrpPart->Current_File_System,
         .fs_mgr_flags.logical = twrpPart->Is_Super,
